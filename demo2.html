@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeStyle | Fashion Boutique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#faf9f7',
+                            100: '#f5f2ed',
+                            200: '#e8e2d9',
+                            300: '#d4c9b8',
+                            400: '#b8a88f',
+                            500: '#a08b6d',
+                            600: '#8b765a',
+                            700: '#736149',
+                            800: '#5e4f3e',
+                            900: '#4d4134',
+                            950: '#29221b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .product-card:hover .product-image { transform: scale(1.05); }
+        .product-card:hover .quick-add { opacity: 1; transform: translateY(0); }
+        
+        .cart-slide { transform: translateX(100%); transition: transform 0.3s ease; }
+        .cart-slide.open { transform: translateX(0); }
+        
+        .toast {
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        
+        .image-zoom {
+            transition: transform 0.5s ease;
+        }
+        .image-zoom:hover { transform: scale(1.1); }
+        
+        .filter-chip.active {
+            background: #29221b;
+            color: white;
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .size-btn.selected {
+            background: #29221b;
+            color: white;
+            border-color: #29221b;
+        }
+        
+        .quantity-btn {
+            transition: all 0.2s;
+        }
+        .quantity-btn:hover {
+            background: #f5f2ed;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #29221b;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-brand-50 text-brand-950 font-sans antialiased">
+
+    <!-- Announcement Bar -->
+    <div class="bg-brand-950 text-brand-100 text-xs text-center py-2.5 tracking-wider">
+        GRATIS ONGKIR MIN. BELANJA Rp500RB • KHUSUS JABODETABEK
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-brand-200" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Mobile Menu -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <span class="font-serif text-2xl font-bold tracking-tight">LUXESTYLE</span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="#new" class="nav-link relative text-sm font-medium hover:text-brand-600 transition-colors">New Arrivals</a>
+                    <a href="#women" class="nav-link relative text-sm font-medium hover:text-brand-600 transition-colors">Women</a>
+                    <a href="#men" class="nav-link relative text-sm font-medium hover:text-brand-600 transition-colors">Men</a>
+                    <a href="#sale" class="nav-link relative text-sm font-medium text-red-600 hover:text-red-700 transition-colors">Sale</a>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSearch()" class="p-2 hover:bg-brand-100 rounded-full transition-colors">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="toggleCart()" class="p-2 hover:bg-brand-100 rounded-full transition-colors relative">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-brand-950 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-brand-200">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#new" class="block py-2 text-sm font-medium">New Arrivals</a>
+                <a href="#women" class="block py-2 text-sm font-medium">Women</a>
+                <a href="#men" class="block py-2 text-sm font-medium">Men</a>
+                <a href="#sale" class="block py-2 text-sm font-medium text-red-600">Sale</a>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div id="search-bar" class="hidden border-t border-brand-200 bg-white">
+            <div class="max-w-3xl mx-auto px-4 py-4">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Cari produk..." class="w-full pl-12 pr-4 py-3 bg-brand-50 border-none rounded-lg focus:ring-2 focus:ring-brand-950 focus:outline-none" oninput="handleSearch(this.value)">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&h=1080&fit=crop" alt="Fashion" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-brand-950/70 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 h-full flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-xl text-white">
+                <span class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm text-sm tracking-wider mb-6">NEW COLLECTION 2026</span>
+                <h1 class="font-serif text-5xl md:text-6xl font-bold leading-tight mb-6">
+                    Elegance in <br>
+                    <span class="italic">Every Detail</span>
+                </h1>
+                <p class="text-lg text-brand-100 mb-8 leading-relaxed">
+                    Temukan koleksi terbaru kami yang dirancang untuk kenyamanan dan gaya tak terkalahkan.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#products" class="px-8 py-4 bg-white text-brand-950 font-semibold hover:bg-brand-100 transition-colors">
+                        BELANJA SEKARANG
+                    </a>
+                    <a href="#new" class="px-8 py-4 border border-white text-white font-semibold hover:bg-white/10 transition-colors">
+                        LIHAT LOOKBOOK
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-12 bg-white border-b border-brand-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="flex items-center gap-3 justify-center">
+                    <i data-lucide="truck" class="w-6 h-6 text-brand-600"></i>
+                    <span class="text-sm font-medium">Gratis Ongkir</span>
+                </div>
+                <div class="flex items-center gap-3 justify-center">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-brand-600"></i>
+                    <span class="text-sm font-medium">Garansi 100%</span>
+                </div>
+                <div class="flex items-center gap-3 justify-center">
+                    <i data-lucide="refresh-cw" class="w-6 h-6 text-brand-600"></i>
+                    <span class="text-sm font-medium">Return 7 Hari</span>
+                </div>
+                <div class="flex items-center gap-3 justify-center">
+                    <i data-lucide="headphones" class="w-6 h-6 text-brand-600"></i>
+                    <span class="text-sm font-medium">Support 24/7</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="py-8 bg-white sticky top-16 z-30 border-b border-brand-200" id="products">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 overflow-x-auto hide-scrollbar pb-2">
+                <button onclick="filterProducts('all')" class="filter-chip active px-6 py-2 rounded-full border border-brand-200 text-sm font-medium whitespace-nowrap transition-all" data-category="all">
+                    Semua Produk
+                </button>
+                <button onclick="filterProducts('women')" class="filter-chip px-6 py-2 rounded-full border border-brand-200 text-sm font-medium whitespace-nowrap transition-all" data-category="women">
+                    Women
+                </button>
+                <button onclick="filterProducts('men')" class="filter-chip px-6 py-2 rounded-full border border-brand-200 text-sm font-medium whitespace-nowrap transition-all" data-category="men">
+                    Men
+                </button>
+                <button onclick="filterProducts('accessories')" class="filter-chip px-6 py-2 rounded-full border border-brand-200 text-sm font-medium whitespace-nowrap transition-all" data-category="accessories">
+                    Accessories
+                </button>
+                <button onclick="filterProducts('sale')" class="filter-chip px-6 py-2 rounded-full border border-red-200 text-red-600 text-sm font-medium whitespace-nowrap transition-all" data-category="sale">
+                    Sale
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="py-12 bg-brand-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h2 class="font-serif text-3xl font-bold text-brand-950 mb-2">Koleksi Terbaru</h2>
+                    <p class="text-brand-600" id="product-count">Menampilkan 8 produk</p>
+                </div>
+                <select onchange="sortProducts(this.value)" class="bg-white border border-brand-200 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-950">
+                    <option value="newest">Terbaru</option>
+                    <option value="price-low">Harga: Rendah ke Tinggi</option>
+                    <option value="price-high">Harga: Tinggi ke Rendah</option>
+                    <option value="popular">Terpopuler</option>
+                </select>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products injected by JS -->
+            </div>
+
+            <div class="mt-12 text-center">
+                <button onclick="loadMore()" class="px-8 py-3 border-2 border-brand-950 text-brand-950 font-semibold hover:bg-brand-950 hover:text-white transition-all">
+                    MUAT LEBIH BANYAK
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="py-20 bg-brand-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="text-brand-400 text-sm tracking-wider mb-4 block">MEMBER EXCLUSIVE</span>
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">
+                        Daftar Member & <br>
+                        <span class="italic text-brand-400">Dapatkan 15% Off</span>
+                    </h2>
+                    <p class="text-brand-300 mb-8 leading-relaxed">
+                        Bergabunglah dengan LuxeStyle Member dan nikmati diskon khusus, 
+                        early access koleksi baru, dan penawaran eksklusif lainnya.
+                    </p>
+                    <form onsubmit="handleSubscribe(event)" class="flex gap-4 max-w-md">
+                        <input type="email" placeholder="Email anda" required class="flex-1 px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-brand-400 focus:outline-none focus:border-brand-400">
+                        <button type="submit" class="px-6 py-3 bg-white text-brand-950 font-semibold hover:bg-brand-100 transition-colors">
+                            DAFTAR
+                        </button>
+                    </form>
+                </div>
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1558171813-4c088753af8f?w=800&h=600&fit=crop" alt="Fashion" class="w-full h-[400px] object-cover">
+                    <div class="absolute -bottom-6 -left-6 bg-white text-brand-950 p-8 max-w-xs">
+                        <div class="text-4xl font-serif font-bold text-brand-600 mb-2">15%</div>
+                        <div class="text-sm font-semibold uppercase tracking-wider">Diskon Member</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Feed -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
+            <h2 class="font-serif text-3xl font-bold text-brand-950 mb-4">@luxestyle.id</h2>
+            <p class="text-brand-600">Follow kami untuk update style terbaru</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-1">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=400&fit=crop" class="w-full h-64 object-cover hover:opacity-80 transition-opacity cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=400&fit=crop" class="w-full h-64 object-cover hover:opacity-80 transition-opacity cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=400&h=400&fit=crop" class="w-full h-64 object-cover hover:opacity-80 transition-opacity cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=400&fit=crop" class="w-full h-64 object-cover hover:opacity-80 transition-opacity cursor-pointer">
+            <img src="https://images.unsplash.com/photo-1485968579169-a6e9dc7c0575?w=400&h=400&fit=crop" class="w-full h-64 object-cover hover:opacity-80 transition-opacity cursor-pointer">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-950 text-brand-300 pt-20 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div class="col-span-2 md:col-span-1">
+                    <span class="font-serif text-2xl font-bold text-white block mb-4">LUXESTYLE</span>
+                    <p class="text-sm leading-relaxed mb-6">
+                        Destinasi fashion premium untuk gaya hidup modern. Kualitas terbaik, harga terjangkau.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-white hover:text-brand-950 transition-all">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-white hover:text-brand-950 transition-all">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-white hover:text-brand-950 transition-all">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Belanja</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">New Arrivals</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Women</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Men</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Accessories</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sale</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Bantuan</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Cara Order</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pengiriman</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Return Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Size Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Kontak</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                            <span>Jl. Fashion No. 123<br>Jakarta 12345</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-4 h-4 shrink-0"></i>
+                            <span>0812-3456-7890</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-4 h-4 shrink-0"></i>
+                            <span>hello@luxestyle.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <p>&copy; 2026 LuxeStyle. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden" onclick="toggleCart()"></div>
+    <div id="cart-sidebar" class="cart-slide fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between p-6 border-b border-brand-200">
+            <h2 class="font-serif text-xl font-bold">Keranjang Belanja</h2>
+            <button onclick="toggleCart()" class="p-2 hover:bg-brand-100 rounded-full transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Cart items injected here -->
+            <div class="text-center text-brand-500 py-12">
+                <i data-lucide="shopping-bag" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
+                <p>Keranjang masih kosong</p>
+            </div>
+        </div>
+        
+        <div class="border-t border-brand-200 p-6 space-y-4">
+            <div class="flex justify-between text-lg font-semibold">
+                <span>Total</span>
+                <span id="cart-total">Rp0</span>
+            </div>
+            <button onclick="checkoutWhatsApp()" class="w-full py-4 bg-brand-950 text-white font-semibold hover:bg-brand-800 transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                PESAN VIA WHATSAPP
+            </button>
+            <p class="text-xs text-center text-brand-500">
+                Atau lanjutkan dengan <a href="#" class="underline">metode pembayaran lain</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-lg shadow-2xl" onclick="event.stopPropagation()">
+            <div class="grid md:grid-cols-2">
+                <div class="relative h-96 md:h-auto">
+                    <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/90 flex items-center justify-center rounded-full hover:bg-white transition-colors md:hidden">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="p-8">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 hidden md:flex items-center justify-center hover:bg-brand-100 rounded-full transition-colors">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    
+                    <span id="modal-category" class="text-sm text-brand-500 uppercase tracking-wider mb-2 block"></span>
+                    <h2 id="modal-title" class="font-serif text-3xl font-bold text-brand-950 mb-4"></h2>
+                    <div class="flex items-center gap-4 mb-6">
+                        <span id="modal-price" class="text-2xl font-bold text-brand-950"></span>
+                        <span id="modal-original" class="text-lg text-brand-400 line-through hidden"></span>
+                    </div>
+                    
+                    <p id="modal-desc" class="text-brand-600 mb-8 leading-relaxed"></p>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-semibold mb-3">Ukuran</label>
+                        <div class="flex gap-3" id="modal-sizes">
+                            <!-- Sizes injected here -->
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <div class="flex items-center border border-brand-200">
+                            <button onclick="adjustModalQty(-1)" class="quantity-btn px-4 py-3">-</button>
+                            <span id="modal-qty" class="px-4 py-3 font-semibold w-12 text-center">1</span>
+                            <button onclick="adjustModalQty(1)" class="quantity-btn px-4 py-3">+</button>
+                        </div>
+                        <button onclick="addToCartFromModal()" class="flex-1 py-3 bg-brand-950 text-white font-semibold hover:bg-brand-800 transition-colors">
+                            TAMBAH KE KERANJANG
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: "Classic Linen Blazer",
+                category: "women",
+                price: 459000,
+                originalPrice: 599000,
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&h=800&fit=crop",
+                sizes: ["S", "M", "L", "XL"],
+                badge: "Sale",
+                popular: true
+            },
+            {
+                id: 2,
+                name: "Minimalist Cotton Dress",
+                category: "women",
+                price: 329000,
+                image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600&h=800&fit=crop",
+                sizes: ["XS", "S", "M", "L"],
+                popular: true
+            },
+            {
+                id: 3,
+                name: "Premium Wool Coat",
+                category: "women",
+                price: 899000,
+                image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&h=800&fit=crop",
+                sizes: ["S", "M", "L"],
+                badge: "New"
+            },
+            {
+                id: 4,
+                name: "Silk Evening Gown",
+                category: "women",
+                price: 1299000,
+                image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=600&h=800&fit=crop",
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                id: 5,
+                name: "Slim Fit Oxford Shirt",
+                category: "men",
+                price: 279000,
+                image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&h=800&fit=crop",
+                sizes: ["M", "L", "XL", "XXL"],
+                popular: true
+            },
+            {
+                id: 6,
+                name: "Chino Pants Beige",
+                category: "men",
+                price: 349000,
+                originalPrice: 429000,
+                image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop",
+                sizes: ["30", "32", "34", "36"],
+                badge: "Sale"
+            },
+            {
+                id: 7,
+                name: "Leather Bomber Jacket",
+                category: "men",
+                price: 1199000,
+                image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&h=800&fit=crop",
+                sizes: ["M", "L", "XL"],
+                badge: "New"
+            },
+            {
+                id: 8,
+                name: "Knitted Sweater",
+                category: "men",
+                price: 389000,
+                image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=800&fit=crop",
+                sizes: ["S", "M", "L", "XL", "XXL"]
+            },
+            {
+                id: 9,
+                name: "Leather Crossbody Bag",
+                category: "accessories",
+                price: 559000,
+                image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=800&fit=crop",
+                sizes: ["One Size"]
+            },
+            {
+                id: 10,
+                name: "Classic Sunglasses",
+                category: "accessories",
+                price: 299000,
+                originalPrice: 399000,
+                image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=800&fit=crop",
+                sizes: ["One Size"],
+                badge: "Sale"
+            },
+            {
+                id: 11,
+                name: "Minimalist Watch",
+                category: "accessories",
+                price: 799000,
+                image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&h=800&fit=crop",
+                sizes: ["One Size"],
+                badge: "New",
+                popular: true
+            },
+            {
+                id: 12,
+                name: "Silk Scarf",
+                category: "accessories",
+                price: 189000,
+                image: "https://images.unsplash.com/photo-1584030373081-f37b7bb4fa33?w=600&h=800&fit=crop",
+                sizes: ["One Size"]
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+        let currentModalProduct = null;
+        let modalQty = 1;
+        let selectedSize = null;
+
+        // Format price
+        function formatPrice(price) {
+            return 'Rp' + price.toLocaleString('id-ID');
+        }
+
+        // Render products
+        function renderProducts(filter = 'all', searchQuery = '') {
+            const grid = document.getElementById('products-grid');
+            let filtered = products;
+
+            if (filter !== 'all') {
+                if (filter === 'sale') {
+                    filtered = products.filter(p => p.originalPrice);
+                } else {
+                    filtered = products.filter(p => p.category === filter);
+                }
+            }
+
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
+
+            document.getElementById('product-count').textContent = `Menampilkan ${filtered.length} produk`;
+
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="relative overflow-hidden aspect-[3/4] bg-brand-100">
+                        <img src="${product.image}" alt="${product.name}" class="product-image w-full h-full object-cover transition-transform duration-500">
+                        
+                        ${product.badge ? `
+                            <span class="absolute top-3 left-3 px-3 py-1 bg-brand-950 text-white text-xs font-semibold tracking-wider">
+                                ${product.badge.toUpperCase()}
+                            </span>
+                        ` : ''}
+                        
+                        <button onclick="openModal(${product.id})" class="quick-add absolute bottom-0 left-0 right-0 py-4 bg-white/95 text-brand-950 font-semibold text-sm uppercase tracking-wider opacity-0 transform translate-y-full transition-all duration-300 hover:bg-brand-950 hover:text-white">
+                            Quick View
+                        </button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <span class="text-xs text-brand-500 uppercase tracking-wider mb-1 block">${product.category}</span>
+                        <h3 class="font-medium text-brand-950 mb-2 line-clamp-2 group-hover:text-brand-600 transition-colors cursor-pointer" onclick="openModal(${product.id})">
+                            ${product.name}
+                        </h3>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-brand-950">${formatPrice(product.price)}</span>
+                            ${product.originalPrice ? `
+                                <span class="text-sm text-brand-400 line-through">${formatPrice(product.originalPrice)}</span>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            // Update UI
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.category === category) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            renderProducts(category);
+        }
+
+        // Sort products
+        function sortProducts(sortBy) {
+            let sorted = [...products];
+            
+            switch(sortBy) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'popular':
+                    sorted.sort((a, b) => (b.popular ? 1 : 0) - (a.popular ? 1 : 0));
+                    break;
+                default:
+                    sorted.sort((a, b) => b.id - a.id);
+            }
+            
+            // Temporarily replace products array for rendering
+            const originalProducts = products;
+            products.length = 0;
+            products.push(...sorted);
+            renderProducts(currentFilter);
+            products.length = 0;
+            products.push(...originalProducts);
+        }
+
+        // Search
+        function handleSearch(query) {
+            renderProducts(currentFilter, query);
+        }
+
+        function toggleSearch() {
+            const bar = document.getElementById('search-bar');
+            bar.classList.toggle('hidden');
+            if (!bar.classList.contains('hidden')) {
+                document.getElementById('search-input').focus();
+            }
+        }
+
+        // Modal functions
+        function openModal(productId) {
+            const product = products.find(p => p.id === productId);
+            currentModalProduct = product;
+            modalQty = 1;
+            selectedSize = product.sizes[0];
+            
+            document.getElementById('modal-image').src = product.image;
+            document.getElementById('modal-category').textContent = product.category;
+            document.getElementById('modal-title').textContent = product.name;
+            document.getElementById('modal-price').textContent = formatPrice(product.price);
+            document.getElementById('modal-desc').textContent = `Koleksi premium dengan bahan berkualitas tinggi. Nyaman dipakai sehari-hari dan cocok untuk berbagai acara. Tersedia dalam berbagai ukuran.`;
+            
+            const originalEl = document.getElementById('modal-original');
+            if (product.originalPrice) {
+                originalEl.textContent = formatPrice(product.originalPrice);
+                originalEl.classList.remove('hidden');
+            } else {
+                originalEl.classList.add('hidden');
+            }
+            
+            // Render sizes
+            document.getElementById('modal-sizes').innerHTML = product.sizes.map(size => `
+                <button onclick="selectSize('${size}')" class="size-btn w-12 h-12 border border-brand-200 rounded font-medium text-sm transition-all ${size === selectedSize ? 'selected' : 'hover:border-brand-950'}">
+                    ${size}
+                </button>
+            `).join('');
+            
+            document.getElementById('modal-qty').textContent = modalQty;
+            document.getElementById('product-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function selectSize(size) {
+            selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.textContent.trim() === size) {
+                    btn.classList.add('selected');
+                }
+            });
+        }
+
+        function adjustModalQty(delta) {
+            modalQty = Math.max(1, modalQty + delta);
+            document.getElementById('modal-qty').textContent = modalQty;
+        }
+
+        function addToCartFromModal() {
+            if (!currentModalProduct) return;
+            
+            addToCart(currentModalProduct, modalQty, selectedSize);
+            closeModal();
+        }
+
+        // Cart functions
+        function addToCart(product, qty = 1, size = null) {
+            const existingItem = cart.find(item => item.id === product.id && item.size === size);
+            
+            if (existingItem) {
+                existingItem.qty += qty;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: size || product.sizes[0],
+                    qty: qty
+                });
+            }
+            
+            updateCart();
+            showToast(`${product.name} ditambahkan ke keranjang`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCartQty(index, delta) {
+            cart[index].qty = Math.max(1, cart[index].qty + delta);
+            updateCart();
+        }
+
+        function updateCart() {
+            const badge = document.getElementById('cart-badge');
+            const itemsContainer = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+            
+            totalEl.textContent = formatPrice(totalPrice);
+            
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="text-center text-brand-500 py-12">
+                        <i data-lucide="shopping-bag" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
+                        <p>Keranjang masih kosong</p>
+                    </div>
+                `;
+            } else {
+                itemsContainer.innerHTML = cart.map((item, index) => `
+                    <div class="flex gap-4 py-4 border-b border-brand-100">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-24 object-cover rounded">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-brand-950 mb-1 line-clamp-2">${item.name}</h4>
+                            <p class="text-sm text-brand-500 mb-2">Ukuran: ${item.size}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center border border-brand-200 rounded">
+                                    <button onclick="updateCartQty(${index}, -1)" class="px-2 py-1 hover:bg-brand-50">-</button>
+                                    <span class="px-2 py-1 text-sm font-medium w-8 text-center">${item.qty}</span>
+                                    <button onclick="updateCartQty(${index}, 1)" class="px-2 py-1 hover:bg-brand-50">+</button>
+                                </div>
+                                <span class="font-semibold">${formatPrice(item.price * item.qty)}</span>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-brand-400 hover:text-red-500 transition-colors">
+                            <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            lucide.createIcons();
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        }
+
+        // WhatsApp Checkout
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                showToast('Keranjang masih kosong!');
+                return;
+            }
+            
+            let message = '*PESANAN BARU - LUXESTYLE*%0A%0A';
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name}%0A`;
+                message += `   Ukuran: ${item.size}%0A`;
+                message += `   Jumlah: ${item.qty}%0A`;
+                message += `   Harga: ${formatPrice(item.price * item.qty)}%0A%0A`;
+            });
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            message += `*Total: ${formatPrice(total)}*%0A%0A`;
+            message += `Nama: ___________%0A`;
+            message += `Alamat: ___________%0A`;
+            message += `No. HP: ___________`;
+            
+            window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast bg-brand-950 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3';
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i>
+                <span class="font-medium">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Newsletter
+        function handleSubscribe(e) {
+            e.preventDefault();
+            showToast('Terima kasih telah berlangganan!');
+            e.target.reset();
+        }
+
+        // Load more (simulation)
+        function loadMore() {
+            showToast('Menampilkan lebih banyak produk...');
+        }
+
+        // Initialize
+        renderProducts();
+        
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                if (document.getElementById('cart-sidebar').classList.contains('open')) {
+                    toggleCart();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

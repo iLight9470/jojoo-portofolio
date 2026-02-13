@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="meta.title">JOJOO Digital | Future-Forward Digital Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+                        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+                        accent: '#00f0ff',
+                        accent2: '#7000ff',
+                        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(0, 240, 255, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(0, 240, 255, 0.6)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            --color-primary: 10 10 15;
+            --color-secondary: 18 18 26;
+            --color-surface: 26 26 37;
+        }
+        
+        .light {
+            --color-primary: 255 255 255;
+            --color-secondary: 248 249 250;
+            --color-surface: 241 243 245;
+        }
+        
+        body {
+            background-color: rgb(var(--color-primary));
+            color: rgb(var(--color-text, 226 232 240));
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .light body {
+            --color-text: 31 41 55;
+        }
+        
+        .glass {
+            background: rgba(var(--color-surface), 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(var(--color-border, 255 255 255), 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .light .glass {
+            --color-border: 0 0 0;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-strong {
+            background: rgba(var(--color-secondary), 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .light .glass-strong {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #00f0ff 0%, #7000ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .border-gradient {
+            border: 1px solid transparent;
+            background: linear-gradient(rgb(var(--color-surface)), rgb(var(--color-surface))) padding-box,
+                        linear-gradient(135deg, #00f0ff, #7000ff) border-box;
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 240, 255, 0.1);
+        }
+        
+        .light .hover-lift:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0, 240, 255, 0.15) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        
+        .light .grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0, 240, 255, 0.3) 1px, transparent 0);
+        }
+        
+        .noise {
+            position: relative;
+        }
+        
+        .noise::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .cursor-glow {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+        }
+        
+        .light .cursor-glow {
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(0, 240, 255, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            border-radius: inherit;
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .marquee {
+            animation: marquee 25s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #00f0ff;
+        }
+        
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #00f0ff;
+        }
+        
+        /* Smooth transitions for theme switch */
+        *, *::before, *::after {
+            transition-property: background-color, border-color, color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .light .text-gray-400 { color: rgb(107 114 128); }
+        .light .text-gray-500 { color: rgb(156 163 175); }
+        .light .text-gray-600 { color: rgb(75 85 99); }
+        .light .border-white\/5 { border-color: rgba(0, 0, 0, 0.05); }
+        .light .border-white\/10 { border-color: rgba(0, 0, 0, 0.1); }
+        .light .bg-white\/5 { background-color: rgba(0, 0, 0, 0.03); }
+        .light .bg-white\/10 { background-color: rgba(0, 0, 0, 0.05); }
+        .light .from-primary { --tw-gradient-from: rgb(248 249 250) var(--tw-gradient-from-position); }
+        .light .via-primary\/50 { --tw-gradient-to: rgb(248 249 250 / 0.5) var(--tw-gradient-to-position); }
+        
+        .lang-btn.active {
+            color: #00f0ff;
+            font-weight: 600;
+        }
+        
+        .light .lang-btn.active {
+            color: #0891b2;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-primary">
+
+    <!-- Cursor Glow Effect -->
+    <div id="cursor-glow" class="cursor-glow hidden md:block"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-primary font-bold text-xl group-hover:scale-110 transition-transform">
+                        J
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-tight">
+                        JOJOO<span class="text-accent">.</span>
+                    </span>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#about" class="text-sm font-medium text-gray-400 hover:text-[rgb(var(--color-text))] transition-colors" data-i18n="nav.about">About</a>
+                    <a href="#services" class="text-sm font-medium text-gray-400 hover:text-[rgb(var(--color-text))] transition-colors" data-i18n="nav.services">Services</a>
+                    <a href="#work" class="text-sm font-medium text-gray-400 hover:text-[rgb(var(--color-text))] transition-colors" data-i18n="nav.work">Work</a>
+                    <a href="#process" class="text-sm font-medium text-gray-400 hover:text-[rgb(var(--color-text))] transition-colors" data-i18n="nav.process">Process</a>
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-white/10">
+                        <button onclick="setLanguage('id')" class="lang-btn text-xs font-medium text-gray-400 hover:text-accent transition-colors active" data-lang="id">ID</button>
+                        <span class="text-gray-600">|</span>
+                        <button onclick="setLanguage('en')" class="lang-btn text-xs font-medium text-gray-400 hover:text-accent transition-colors" data-lang="en">EN</button>
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-full glass border border-white/10 flex items-center justify-center text-gray-400 hover:text-accent transition-all hover:scale-110" aria-label="Toggle theme">
+                        <i data-lucide="sun" class="w-5 h-5 hidden dark:hidden" id="icon-sun"></i>
+                        <i data-lucide="moon" class="w-5 h-5 hidden" id="icon-moon"></i>
+                    </button>
+                    
+                    <a href="#contact" class="px-6 py-2.5 rounded-full bg-[rgb(var(--color-text))] text-[rgb(var(--color-primary))] font-medium text-sm hover:bg-accent transition-all hover:scale-105" data-i18n="nav.contact">
+                        Contact
+                    </a>
+                </div>
+                
+                <div class="flex items-center gap-4 md:hidden">
+                    <!-- Mobile Language -->
+                    <button onclick="toggleLangMobile()" class="text-sm font-medium text-gray-400" id="mobile-lang">ID</button>
+                    
+                    <!-- Mobile Theme -->
+                    <button onclick="toggleTheme()" class="text-gray-400">
+                        <i data-lucide="sun" class="w-5 h-5 hidden" id="mobile-icon-sun"></i>
+                        <i data-lucide="moon" class="w-5 h-5 hidden" id="mobile-icon-moon"></i>
+                    </button>
+                    
+                    <button class="text-[rgb(var(--color-text))]" onclick="toggleMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-strong border-t border-white/5">
+            <div class="px-6 py-4 space-y-3">
+                <a href="#about" class="block py-2 text-gray-400 hover:text-[rgb(var(--color-text))]" data-i18n="nav.about">About</a>
+                <a href="#services" class="block py-2 text-gray-400 hover:text-[rgb(var(--color-text))]" data-i18n="nav.services">Services</a>
+                <a href="#work" class="block py-2 text-gray-400 hover:text-[rgb(var(--color-text))]" data-i18n="nav.work">Work</a>
+                <a href="#process" class="block py-2 text-gray-400 hover:text-[rgb(var(--color-text))]" data-i18n="nav.process">Process</a>
+                <a href="#contact" class="block py-2 text-accent" data-i18n="nav.contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden noise">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 grid-pattern opacity-30"></div>
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[128px] animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent2/20 rounded-full blur-[128px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent/20 mb-8 reveal">
+                <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                <span class="text-sm font-medium text-accent" data-i18n="hero.available">Available for Projects</span>
+            </div>
+            
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 reveal" style="transition-delay: 100ms;">
+                <span data-i18n="hero.title1">Digital Solutions</span><br>
+                <span class="text-gradient" data-i18n="hero.title2">Beyond Tomorrow</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 reveal" style="transition-delay: 200ms;" data-i18n="hero.subtitle">
+                Front-end developer & digital strategist crafting futuristic web experiences, 
+                social media growth, and WhatsApp recovery solutions for UMKM.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 reveal" style="transition-delay: 300ms;">
+                <a href="#work" class="group px-8 py-4 rounded-full bg-gradient-to-r from-accent to-accent2 text-primary font-semibold hover:shadow-lg hover:shadow-accent/25 transition-all hover:scale-105 flex items-center gap-2">
+                    <span data-i18n="hero.cta1">View Portfolio</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="https://wa.me/6281288866849" target="_blank" class="px-8 py-4 rounded-full glass border border-white/10 text-[rgb(var(--color-text))] font-semibold hover:bg-white/5 transition-all flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span data-i18n="hero.cta2">WhatsApp Me</span>
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 max-w-3xl mx-auto reveal" style="transition-delay: 400ms;">
+                <div class="text-center">
+                    <div class="font-display text-3xl font-bold text-[rgb(var(--color-text))] mb-1">50+</div>
+                    <div class="text-sm text-gray-500" data-i18n="stats.projects">Projects Done</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl font-bold text-[rgb(var(--color-text))] mb-1">3+</div>
+                    <div class="text-sm text-gray-500" data-i18n="stats.experience">Years Exp</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl font-bold text-[rgb(var(--color-text))] mb-1">100%</div>
+                    <div class="text-sm text-gray-500" data-i18n="stats.satisfaction">Client Satisfied</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-display text-3xl font-bold text-[rgb(var(--color-text))] mb-1">24/7</div>
+                    <div class="text-sm text-gray-500" data-i18n="stats.support">Support</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-gray-500"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative reveal">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-accent to-accent2 rounded-3xl opacity-20 blur-2xl"></div>
+                    <div class="relative rounded-3xl overflow-hidden border border-white/10">
+                        <img src="https://pbs.twimg.com/profile_images/1803466190691422208/kBwcf3Pg_400x400.png" alt="Profile" class="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[rgb(var(--color-primary))] via-transparent to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="glass rounded-2xl p-4 border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                                    <span class="text-sm font-medium" data-i18n="about.status">Currently working on new projects</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal">
+                    <span class="text-accent font-medium mb-4 block" data-i18n="about.label">About Me</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                        <span data-i18n="about.title1">Crafting Digital</span><br>
+                        <span class="text-gradient" data-i18n="about.title2">Excellence</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-6" data-i18n="about.p1">
+                        I'm a front-end developer passionate about building modern, responsive websites and landing pages 
+                        that not only look stunning but drive real results. With expertise in React, Vue, and modern CSS frameworks, 
+                        I bring ideas to life with clean code and futuristic design.
+                    </p>
+                    <p class="text-gray-400 text-lg leading-relaxed mb-8" data-i18n="about.p2">
+                        Beyond web development, I specialize in social media growth strategies and WhatsApp Business account recovery, 
+                        providing comprehensive digital solutions for UMKM and personal brands across Indonesia.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
+                                <i data-lucide="code-2" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-medium" data-i18n="skills.dev">Frontend Dev</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-accent2/10 flex items-center justify-center text-accent2">
+                                <i data-lucide="smartphone" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-medium" data-i18n="skills.whatsapp">WhatsApp Recovery</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-500">
+                                <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-medium" data-i18n="skills.social">Social Media</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-500">
+                                <i data-lucide="palette" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-medium" data-i18n="skills.design">UI/UX Design</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="inline-flex items-center gap-2 text-accent font-semibold hover:gap-4 transition-all">
+                        <span data-i18n="about.cta">Let's collaborate</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-32 relative noise">
+        <div class="absolute inset-0 grid-pattern opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="text-accent font-medium mb-4 block" data-i18n="services.label">Services</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                    <span data-i18n="services.title1">Future-Ready</span><br>
+                    <span class="text-gradient" data-i18n="services.title2">Digital Solutions</span>
+                </h2>
+                <p class="text-gray-400 text-lg" data-i18n="services.subtitle">
+                    Comprehensive digital services tailored to elevate your brand presence and streamline your business operations.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="service-card relative group p-8 rounded-3xl glass border border-white/5 hover-lift reveal">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="globe" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold mb-4" data-i18n="services.web.title">Web Development</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="services.web.desc">
+                        Modern, responsive websites and high-converting landing pages built with React, Vue, and cutting-edge technologies.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-accent"></i>
+                            <span data-i18n="services.web.f1">Responsive Design</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-accent"></i>
+                            <span data-i18n="services.web.f2">SEO Optimized</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-accent"></i>
+                            <span data-i18n="services.web.f3">Fast Performance</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="inline-flex items-center gap-2 text-accent font-medium group-hover:gap-3 transition-all">
+                        <span data-i18n="services.web.cta">Start Project</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card relative group p-8 rounded-3xl glass border border-white/5 hover-lift reveal" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="message-circle" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold mb-4" data-i18n="services.wa.title">WhatsApp Recovery</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="services.wa.desc">
+                        Professional recovery services for WhatsApp Messenger and Business accounts. Secure, fast, and reliable.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-500"></i>
+                            <span data-i18n="services.wa.f1">Account Recovery</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-500"></i>
+                            <span data-i18n="services.wa.f2">Data Protection</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-500"></i>
+                            <span data-i18n="services.wa.f3">24/7 Support</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="inline-flex items-center gap-2 text-purple-400 font-medium group-hover:gap-3 transition-all">
+                        <span data-i18n="services.wa.cta">Recover Now</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card relative group p-8 rounded-3xl glass border border-white/5 hover-lift reveal" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="zap" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-display text-2xl font-bold mb-4" data-i18n="services.sosmed.title">Social Media Boost</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed" data-i18n="services.sosmed.desc">
+                        Strategic content creation and engagement optimization to grow your social media presence organically.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-500"></i>
+                            <span data-i18n="services.sosmed.f1">Content Strategy</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-500"></i>
+                            <span data-i18n="services.sosmed.f2">Engagement Growth</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm text-gray-300">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-500"></i>
+                            <span data-i18n="services.sosmed.f3">Analytics Report</span>
+                        </li>
+                    </ul>
+                    <a href="#contact" class="inline-flex items-center gap-2 text-orange-400 font-medium group-hover:gap-3 transition-all">
+                        <span data-i18n="services.sosmed.cta">Boost Now</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work -->
+<section id="work" class="py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal">
+            <div>
+                <span class="text-accent font-medium mb-4 block" data-i18n="work.label">Portfolio</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold">
+                    <span data-i18n="work.title1">Featured</span><br>
+                    <span class="text-gradient" data-i18n="work.title2">Projects</span>
+                </h2>
+            </div>
+            <a href="#" class="mt-6 md:mt-0 inline-flex items-center gap-2 text-gray-400 hover:text-[rgb(var(--color-text))] transition-colors">
+                <span data-i18n="work.viewAll">View All Projects</span> <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Project 1: CleanWash -->
+            <a href="demo1.html" class="group relative rounded-3xl overflow-hidden border border-white/5 hover-lift reveal block">
+                <div class="aspect-[4/3] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1601362840469-51e4d8d58785?w=800&h=600&fit=crop" alt="CleanWash Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[rgb(var(--color-primary))] via-[rgb(var(--color-primary))]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 rounded-full bg-accent/20 text-accent text-xs font-medium" data-i18n="work.tags.web">Web Development</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-[rgb(var(--color-text))] text-xs font-medium">Service</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-2">CleanWash</h3>
+                    <p class="text-gray-300 text-sm mb-4" data-i18n="work.project1.desc">Premium car & motorcycle wash services with booking system.</p>
+                    <span class="inline-flex items-center gap-2 text-accent font-medium text-sm">
+                        <span data-i18n="work.viewCase">View Demo</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                </div>
+            </a>
+            
+            <!-- Project 2: E-Commerce -->
+            <a href="demo2.html" class="group relative rounded-3xl overflow-hidden border border-white/5 hover-lift reveal block" style="transition-delay: 100ms;">
+                <div class="aspect-[4/3] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop" alt="E-Commerce Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[rgb(var(--color-primary))] via-[rgb(var(--color-primary))]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium" data-i18n="work.tags.ecommerce">E-Commerce</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-[rgb(var(--color-text))] text-xs font-medium">Shop</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-2">LuxeStyle</h3>
+                    <p class="text-gray-300 text-sm mb-4" data-i18n="work.project2.desc">Fashion boutique with cart system and WhatsApp checkout.</p>
+                    <span class="inline-flex items-center gap-2 text-purple-400 font-medium text-sm">
+                        <span data-i18n="work.viewCase">View Demo</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                </div>
+            </a>
+            
+            <!-- Project 3: Restaurant -->
+            <a href="demo3.html" class="group relative rounded-3xl overflow-hidden border border-white/5 hover-lift reveal block" style="transition-delay: 200ms;">
+                <div class="aspect-[4/3] overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop" alt="Restaurant Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[rgb(var(--color-primary))] via-[rgb(var(--color-primary))]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium" data-i18n="work.tags.restaurant">Restaurant</span>
+                        <span class="px-3 py-1 rounded-full bg-white/10 text-[rgb(var(--color-text))] text-xs font-medium">Booking</span>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-2">Savoria</h3>
+                    <p class="text-gray-300 text-sm mb-4" data-i18n="work.project3.desc">Fine dining restaurant with reservation and menu ordering.</p>
+                    <span class="inline-flex items-center gap-2 text-orange-400 font-medium text-sm">
+                        <span data-i18n="work.viewCase">View Demo</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-32 relative noise">
+        <div class="absolute inset-0 grid-pattern opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <span class="text-accent font-medium mb-4 block" data-i18n="process.label">Workflow</span>
+                <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                    <span data-i18n="process.title1">How We</span><br>
+                    <span class="text-gradient" data-i18n="process.title2">Work Together</span>
+                </h2>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="relative reveal">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-primary font-bold text-2xl mb-6">
+                        01
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-3" data-i18n="process.step1.title">Consultation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="process.step1.desc">
+                        We discuss your needs, goals, and vision for the project in detail.
+                    </p>
+                    <div class="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-accent to-transparent"></div>
+                </div>
+                
+                <div class="relative reveal" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-surface border border-white/10 flex items-center justify-center text-[rgb(var(--color-text))] font-bold text-2xl mb-6">
+                        02
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-3" data-i18n="process.step2.title">Planning</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="process.step2.desc">
+                        Strategic roadmap creation with timeline and milestone definitions.
+                    </p>
+                    <div class="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-white/20 to-transparent"></div>
+                </div>
+                
+                <div class="relative reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-surface border border-white/10 flex items-center justify-center text-[rgb(var(--color-text))] font-bold text-2xl mb-6">
+                        03
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-3" data-i18n="process.step3.title">Execution</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="process.step3.desc">
+                        Development and implementation with regular updates and feedback loops.
+                    </p>
+                    <div class="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-white/20 to-transparent"></div>
+                </div>
+                
+                <div class="relative reveal" style="transition-delay: 300ms;">
+                    <div class="w-16 h-16 rounded-2xl bg-surface border border-white/10 flex items-center justify-center text-[rgb(var(--color-text))] font-bold text-2xl mb-6">
+                        04
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-3" data-i18n="process.step4.title">Launch</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="process.step4.desc">
+                        Final delivery, deployment, and post-launch support for success.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Marquee -->
+    <section class="py-20 border-y border-white/5 overflow-hidden">
+        <div class="flex whitespace-nowrap">
+            <div class="marquee flex items-center gap-12 text-2xl font-display font-bold text-gray-600">
+                <span>REACT</span>
+                <span class="text-accent">•</span>
+                <span>VUE</span>
+                <span class="text-accent">•</span>
+                <span>TAILWIND</span>
+                <span class="text-accent">•</span>
+                <span>TYPESCRIPT</span>
+                <span class="text-accent">•</span>
+                <span>NEXT.JS</span>
+                <span class="text-accent">•</span>
+                <span>FIGMA</span>
+                <span class="text-accent">•</span>
+                <span>REACT</span>
+                <span class="text-accent">•</span>
+                <span>VUE</span>
+                <span class="text-accent">•</span>
+                <span>TAILWIND</span>
+                <span class="text-accent">•</span>
+                <span>TYPESCRIPT</span>
+                <span class="text-accent">•</span>
+                <span>NEXT.JS</span>
+                <span class="text-accent">•</span>
+                <span>FIGMA</span>
+                <span class="text-accent">•</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 relative">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="glass rounded-3xl p-8 md:p-12 border border-white/5 reveal">
+                <div class="text-center mb-12">
+                    <span class="text-accent font-medium mb-4 block" data-i18n="contact.label">Contact</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6">
+                        <span data-i18n="contact.title1">Let's Create</span><br>
+                        <span class="text-gradient" data-i18n="contact.title2">Something Amazing</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg" data-i18n="contact.subtitle">
+                        Ready to elevate your digital presence? Let's discuss your project.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <a href="https://wa.me/6281288866849" target="_blank" class="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/50 transition-all hover:bg-white/10">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/20 text-green-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display text-xl font-bold mb-2">WhatsApp</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="contact.whatsapp">Fast response for urgent inquiries (slow respond) </p>
+                    </a>
+                    
+                    <a href="https://t.me/jojoonews" target="_blank" class="group p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-accent/50 transition-all hover:bg-white/10">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i data-lucide="send" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display text-xl font-bold mb-2">Telegram</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="contact.telegram">Join channel for updates & tips (fast respond especiall on dms)</p>
+                    </a>
+                </div>
+                
+                <form class="space-y-6" id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form.name">Name</label>
+                            <input type="text" id="formName" required class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none transition-colors text-[rgb(var(--color-text))] placeholder-gray-600" placeholder="Your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form.email">Email</label>
+                            <input type="email" id="formEmail" required class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none transition-colors text-[rgb(var(--color-text))] placeholder-gray-600" placeholder="your@email.com">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form.service">Service</label>
+                        <select id="formService" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none transition-colors text-[rgb(var(--color-text))] [&>option]:bg-[rgb(var(--color-secondary))]">
+                            <option value="Web Development" data-i18n="form.options.web">Web Development</option>
+                            <option value="WhatsApp Recovery" data-i18n="form.options.wa">WhatsApp Recovery</option>
+                            <option value="Social Media Boost" data-i18n="form.options.sosmed">Social Media Boost</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2" data-i18n="form.message">Message</label>
+                        <textarea id="formMessage" rows="4" required class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-accent focus:outline-none transition-colors text-[rgb(var(--color-text))] placeholder-gray-600 resize-none" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-accent to-accent2 text-primary font-bold text-lg hover:shadow-lg hover:shadow-accent/25 transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                        <span data-i18n="form.submit">Send via WhatsApp</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-accent2 flex items-center justify-center text-primary font-bold">
+                        J
+                    </div>
+                    <span class="font-display font-bold text-xl">JOJOO<span class="text-accent">.</span></span>
+                </div>
+                
+                <div class="flex items-center gap-8 text-sm text-gray-400">
+                    <a href="#" class="hover:text-[rgb(var(--color-text))] transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-[rgb(var(--color-text))] transition-colors">Terms</a>
+                    <a href="#" class="hover:text-[rgb(var(--color-text))] transition-colors">Sitemap</a>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[rgb(var(--color-text))] hover:bg-white/10 transition-all">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[rgb(var(--color-text))] hover:bg-white/10 transition-all">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-[rgb(var(--color-text))] hover:bg-white/10 transition-all">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/5 text-center text-sm text-gray-600">
+                © 2026 JOJOO Digital. <span data-i18n="footer.rights">All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Translations
+        const translations = {
+            id: {
+                meta: { title: "JOJOO Digital | Solusi Digital Masa Depan" },
+                nav: {
+                    about: "Tentang",
+                    services: "Layanan",
+                    work: "Portofolio",
+                    process: "Proses",
+                    contact: "Kontak"
+                },
+                hero: {
+                    available: "Tersedia untuk Proyek",
+                    title1: "Solusi Digital",
+                    title2: "Masa Depan",
+                    subtitle: "Front-end developer & digital strategist yang menciptakan pengalaman web futuristik, boost media sosial, dan jasa pemulihan akun WhatsApp.",
+                    cta1: "Lihat Portofolio",
+                    cta2: "WhatsApp Saya"
+                },
+                stats: {
+                    projects: "Proyek Selesai",
+                    experience: "Tahun Pengalaman",
+                    satisfaction: "Klien Puas",
+                    support: "Dukungan"
+                },
+                about: {
+                    label: "Tentang Saya",
+                    title1: "Menciptakan",
+                    title2: "Keunggulan Digital",
+                    status: "Sedang mengerjakan proyek baru",
+                    p1: "Saya adalah front-end developer yang passionate membangun website modern dan landing page responsif yang tidak hanya terlihat menakjubkan tetapi juga memberikan hasil nyata. Dengan keahlian dalam React, Vue, dan framework CSS modern, saya mewujudkan ide dengan kode bersih dan desain futuristik.",
+                    p2: "Di luar web development, saya spesialis dalam strategi pertumbuhan media sosial dan pemulihan akun WhatsApp Business, menyediakan solusi digital komprehensif untuk UMKM dan personal brand di seluruh Indonesia.",
+                    cta: "Mari berkolaborasi"
+                },
+                skills: {
+                    dev: "Frontend Dev",
+                    whatsapp: "Pemulihan WA",
+                    social: "Media Sosial",
+                    design: "Desain UI/UX"
+                },
+                services: {
+                    label: "Layanan",
+                    title1: "Solusi Digital",
+                    title2: "Siap Masa Depan",
+                    subtitle: "Layanan digital komprehensif yang disesuaikan untuk meningkatkan presence brand Anda dan menyederhanakan operasi bisnis.",
+                    web: {
+                        title: "Pembuatan Website",
+                        desc: "Website modern dan landing page konversif dengan React, Vue, dan teknologi terkini.",
+                        f1: "Desain Responsif",
+                        f2: "SEO Optimized",
+                        f3: "Performa Cepat",
+                        cta: "Mulai Proyek"
+                    },
+                    wa: {
+                        title: "Pemulihan WhatsApp",
+                        desc: "Layanan pemulihan profesional untuk akun WhatsApp Messenger dan Business. Aman, cepat, dan terpercaya.",
+                        f1: "Pemulihan Akun",
+                        f2: "Proteksi Data",
+                        f3: "Dukungan 24/7",
+                        cta: "Pulihkan Sekarang"
+                    },
+                    sosmed: {
+                        title: "Boost Media Sosial",
+                        desc: "Strategi pembuatan konten dan optimasi engagement untuk meningkatkan presence media sosial Anda secara organik.",
+                        f1: "Strategi Konten",
+                        f2: "Peningkatan Engagement",
+                        f3: "Laporan Analitik",
+                        cta: "Boost Sekarang"
+                    }
+                },
+                work: {
+                    label: "Portofolio",
+                    title1: "Proyek",
+                    title2: "Unggulan",
+                    viewAll: "Lihat Semua Proyek",
+                    tags: { web: "Cleaning", dashboard: "Dashboard" },
+                    project1: { desc: "Landing page modern untuk layanan cuci motor & mobil dengan sistem booking." },
+                    project2: { desc: "Dashboard analitik bisnis real-time dengan visualisasi data." },
+                    viewCase: "Lihat Studi Kasus"
+                },
+                process: {
+                    label: "Alur Kerja",
+                    title1: "Cara Kami",
+                    title2: "Bekerja Sama",
+                    step1: { title: "Konsultasi", desc: "Kami mendiskusikan kebutuhan, tujuan, dan visi proyek Anda secara detail." },
+                    step2: { title: "Perencanaan", desc: "Pembuatan roadmap strategis dengan timeline dan definisi milestone." },
+                    step3: { title: "Eksekusi", desc: "Development dan implementasi dengan update berkala dan feedback." },
+                    step4: { title: "Peluncuran", desc: "Delivery final, deployment, dan dukungan pasca-launch untuk kesuksesan." }
+                },
+                contact: {
+                    label: "Kontak",
+                    title1: "Mari Ciptakan",
+                    title2: "Sesuatu yang Luar Biasa",
+                    subtitle: "Siap meningkatkan presence digital Anda? Mari diskusikan proyek Anda.",
+                    whatsapp: "Respon cepat untuk inquiry mendesak (tergantung)",
+                    telegram: "Bergabung channel untuk update & tips"
+                },
+                form: {
+                    name: "Nama",
+                    email: "Email",
+                    service: "Layanan",
+                    message: "Pesan",
+                    submit: "Kirim via WhatsApp",
+                    options: {
+                        web: "Pembuatan Website",
+                        wa: "Pemulihan WhatsApp",
+                        sosmed: "Boost Media Sosial"
+                    }
+                },
+                footer: { rights: "Hak cipta dilindungi." }
+            },
+            en: {
+                meta: { title: "JOJOO Digital | Future-Forward Digital Solutions" },
+                nav: {
+                    about: "About",
+                    services: "Services",
+                    work: "Work",
+                    process: "Process",
+                    contact: "Contact"
+                },
+                hero: {
+                    available: "Available for Projects",
+                    title1: "Digital Solutions",
+                    title2: "Beyond Tomorrow",
+                    subtitle: "Front-end developer & digital strategist crafting futuristic web experiences, boost social media, and WhatsApp account recovery solutions.",
+                    cta1: "View Portfolio",
+                    cta2: "WhatsApp Me"
+                },
+                stats: {
+                    projects: "Projects Done",
+                    experience: "Years Exp",
+                    satisfaction: "Client Satisfied",
+                    support: "Support"
+                },
+                about: {
+                    label: "About Me",
+                    title1: "Crafting Digital",
+                    title2: "Excellence",
+                    status: "Currently working on new projects",
+                    p1: "I'm a front-end developer passionate about building modern, responsive websites and landing pages that not only look stunning but drive real results. With expertise in React, Vue, and modern CSS frameworks, I bring ideas to life with clean code and futuristic design.",
+                    p2: "Beyond web development, I specialize in social media growth strategies and WhatsApp Business account recovery, providing comprehensive digital solutions for UMKM and personal brands across Indonesia.",
+                    cta: "Let's collaborate"
+                },
+                skills: {
+                    dev: "Frontend Dev",
+                    whatsapp: "WA Recovery",
+                    social: "Social Media",
+                    design: "UI/UX Design"
+                },
+                services: {
+                    label: "Services",
+                    title1: "Future-Ready",
+                    title2: "Digital Solutions",
+                    subtitle: "Comprehensive digital services tailored to elevate your brand presence and streamline your business operations.",
+                    web: {
+                        title: "Web Development",
+                        desc: "Modern, responsive websites and high-converting landing pages built with React, Vue, and cutting-edge technologies.",
+                        f1: "Responsive Design",
+                        f2: "SEO Optimized",
+                        f3: "Fast Performance",
+                        cta: "Start Project"
+                    },
+                    wa: {
+                        title: "WhatsApp Recovery",
+                        desc: "Professional recovery services for WhatsApp Messenger and Business accounts. Secure, fast, and reliable.",
+                        f1: "Account Recovery",
+                        f2: "Data Protection",
+                        f3: "24/7 Support",
+                        cta: "Recover Now"
+                    },
+                    sosmed: {
+                        title: "Social Media Boost",
+                        desc: "Strategic content creation and engagement optimization to grow your social media presence organically.",
+                        f1: "Content Strategy",
+                        f2: "Engagement Growth",
+                        f3: "Analytics Report",
+                        cta: "Boost Now"
+                    }
+                },
+                work: {
+                    label: "Portfolio",
+                    title1: "Featured",
+                    title2: "Projects",
+                    viewAll: "View All Projects",
+                    tags: { web: "Cleaning", dashboard: "Dashboard" },
+                    project1: { desc: "Modern landing page for motorcycle & car wash services with booking system." },
+                    project2: { desc: "Real-time business analytics dashboard with data visualization." },
+                    viewCase: "View Case Study"
+                },
+                process: {
+                    label: "Workflow",
+                    title1: "How We",
+                    title2: "Work Together",
+                    step1: { title: "Consultation", desc: "We discuss your needs, goals, and vision for the project in detail." },
+                    step2: { title: "Planning", desc: "Strategic roadmap creation with timeline and milestone definitions." },
+                    step3: { title: "Execution", desc: "Development and implementation with regular updates and feedback loops." },
+                    step4: { title: "Launch", desc: "Final delivery, deployment, and post-launch support for success." }
+                },
+                contact: {
+                    label: "Contact",
+                    title1: "Let's Create",
+                    title2: "Something Amazing",
+                    subtitle: "Ready to elevate your digital presence? Let's discuss your project.",
+                    whatsapp: "Fast response for urgent inquiries (depends)",
+                    telegram: "Join channel for updates & tips"
+                },
+                form: {
+                    name: "Name",
+                    email: "Email",
+                    service: "Service",
+                    message: "Message",
+                    submit: "Send via WhatsApp",
+                    options: {
+                        web: "Web Development",
+                        wa: "WhatsApp Recovery",
+                        sosmed: "Social Media Boost"
+                    }
+                },
+                footer: { rights: "All rights reserved." }
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'id';
+        let isDark = localStorage.getItem('theme') !== 'light';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang, false);
+            setTheme(isDark, false);
+            lucide.createIcons();
+        });
+
+        // Theme Toggle
+        function toggleTheme() {
+            isDark = !isDark;
+            setTheme(isDark, true);
+        }
+
+        function setTheme(dark, save = true) {
+            const html = document.documentElement;
+            const sunIcons = document.querySelectorAll('#icon-sun, #mobile-icon-sun');
+            const moonIcons = document.querySelectorAll('#icon-moon, #mobile-icon-moon');
+            
+            if (dark) {
+                html.classList.remove('light');
+                sunIcons.forEach(i => i.classList.remove('hidden'));
+                moonIcons.forEach(i => i.classList.add('hidden'));
+            } else {
+                html.classList.add('light');
+                sunIcons.forEach(i => i.classList.add('hidden'));
+                moonIcons.forEach(i => i.classList.remove('hidden'));
+            }
+            
+            if (save) localStorage.setItem('theme', dark ? 'dark' : 'light');
+            lucide.createIcons();
+        }
+
+        // Language Switcher
+        function setLanguage(lang, save = true) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const keys = el.getAttribute('data-i18n').split('.');
+                let value = t;
+                for (const key of keys) {
+                    value = value?.[key];
+                    if (!value) break;
+                }
+                if (value) {
+                    if (el.tagName === 'TITLE') {
+                        document.title = value;
+                    } else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Update active state on buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            document.getElementById('mobile-lang').textContent = lang.toUpperCase();
+            
+            if (save) localStorage.setItem('lang', lang);
+        }
+
+        function toggleLangMobile() {
+            setLanguage(currentLang === 'id' ? 'en' : 'id');
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Form Handler
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('formName').value;
+            const email = document.getElementById('formEmail').value;
+            const service = document.getElementById('formService').value;
+            const message = document.getElementById('formMessage').value;
+            
+            const text = `*${currentLang === 'id' ? 'Pesan Baru dari Portfolio' : 'New Message from Portfolio'}*%0A%0A` +
+                        `*${currentLang === 'id' ? 'Nama' : 'Name'}:* ${name}%0A` +
+                        `*Email:* ${email}%0A` +
+                        `*${currentLang === 'id' ? 'Layanan' : 'Service'}:* ${service}%0A%0A` +
+                        `*${currentLang === 'id' ? 'Pesan' : 'Message'}:*%0A${message}`;
+            
+            const phoneNumber = '6281288866849'; // <-- GANTI DENGAN NOMOR WA KAMU
+            window.open(`https://wa.me/${phoneNumber}?text=${text}`, '_blank');
+        }
+
+        // Cursor Glow Effect
+        const cursorGlow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('glass-strong');
+                navbar.classList.remove('glass');
+            } else {
+                navbar.classList.add('glass');
+                navbar.classList.remove('glass-strong');
+            }
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
