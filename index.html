@@ -1,15 +1,132 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="meta.title">JOJOO Digital | Future-Forward Digital Solutions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Title & Description (Critical for SEO) -->
+    <title data-i18n="meta.title">JOJOO Digital | Jasa Pembuatan Website & Digital Marketing</title>
+    <meta name="description" content="JOJOO Digital - Jasa pembuatan website profesional, landing page, pemulihan akun WhatsApp, dan boost media sosial untuk UMKM. Solusi digital terbaik dengan harga terjangkau." data-i18n="meta.description">
+    <meta name="keywords" content="jasa website, pembuatan website, landing page, web developer, digital marketing, whatsapp recovery, boost instagram, jasa sosmed, UMKM, jakarta, indonesia" data-i18n="meta.keywords">
+    
+    <!-- Canonical URL (Prevents duplicate content) -->
+    <link rel="canonical" href="https://jojooexo.netlify.app/">
+    
+    <!-- Author & Copyright -->
+    <meta name="author" content="JOJOO Digital">
+    <meta name="copyright" content="© 2026 JOJOO Digital. All rights reserved.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Open Graph / Facebook (Social Sharing) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jojooexo.netlify.app/">
+    <meta property="og:title" content="JOJOO Digital | Jasa Pembuatan Website & Digital Marketing">
+    <meta property="og:description" content="Solusi digital lengkap untuk UMKM: website profesional, landing page, WhatsApp recovery, dan social media boost.">
+    <meta property="og:image" content="https://jojooexo.netlify.app/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="JOJOO Digital">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jojooexo.netlify.app/">
+    <meta name="twitter:title" content="JOJOO Digital | Jasa Pembuatan Website & Digital Marketing">
+    <meta name="twitter:description" content="Solusi digital lengkap untuk UMKM: website profesional, landing page, WhatsApp recovery, dan social media boost.">
+    <meta name="twitter:image" content="https://jojooexo.netlify.app/og-image.jpg">
+    
+    <!-- Favicon (Multiple sizes for all devices) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color (Mobile browser header) -->
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="msapplication-TileColor" content="#0a0a0f">
+    
+    <!-- Preconnect & Preload (Performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Structured Data / Schema.org (JSON-LD) - CRITICAL FOR SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "JOJOO Digital",
+        "description": "Jasa pembuatan website profesional, landing page, pemulihan akun WhatsApp, dan boost media sosial untuk UMKM.",
+        "url": "https://jojooexo.netlify.app/",
+        "logo": "https://jojooexo.netlify.app/logo.png",
+        "image": "https://jojooexo.netlify.app/og-image.jpg",
+        "telephone": "+6281234567890",
+        "email": "hello@jojoodigital.id",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ID",
+            "addressLocality": "Jakarta",
+            "addressRegion": "DKI Jakarta"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-6.2088",
+            "longitude": "106.8456"
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "09:00",
+            "closes": "21:00"
+        },
+        "priceRange": "$$",
+        "sameAs": [
+            "https://instagram.com/jojoodigital",
+            "https://linkedin.com/company/jojoodigital",
+            "https://wa.me/6281234567890"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Layanan Digital",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Pembuatan Website & Landing Page"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Pemulihan Akun WhatsApp"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Boost Engagement Sosial Media"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
+    
+    <!-- Tailwind & Lucide -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom Tailwind Config -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -25,26 +142,16 @@
                         accent: '#00f0ff',
                         accent2: '#7000ff',
                         surface: 'rgb(var(--color-surface) / <alpha-value>)',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        glow: {
-                            '0%': { boxShadow: '0 0 20px rgba(0, 240, 255, 0.3)' },
-                            '100%': { boxShadow: '0 0 40px rgba(0, 240, 255, 0.6)' },
-                        }
                     }
                 }
             }
         }
     </script>
+    
+    <!-- Additional SEO: Alternate Languages -->
+    <link rel="alternate" hreflang="id" href="https://jojooexo.netlify.app/">
+    <link rel="alternate" hreflang="en" href="https://jojooexo.netlify.app/en/">
+    <link rel="alternate" hreflang="x-default" href="https://jojooexo.netlify.app/">
     
     <style>
         :root {
